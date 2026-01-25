@@ -18,6 +18,8 @@
  * Text Domain:       sudowp-adminer
  */
 
+declare(strict_types=1);
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -28,7 +30,7 @@ class SudoWP_Adminer {
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 	}
 
-	public function register_menu() {
+	public function register_menu(): void {
 		add_menu_page(
 			'SudoWP Adminer',
 			'SudoWP Adminer',
@@ -40,7 +42,7 @@ class SudoWP_Adminer {
 		);
 	}
 
-	public function render_admin_page() {
+	public function render_admin_page(): void {
 		// Calculate the URL to the protected secure loader
 		$loader_url = plugin_dir_url( __FILE__ ) . 'inc/adminer/index.php';
 		?>
