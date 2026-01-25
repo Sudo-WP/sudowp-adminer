@@ -30,7 +30,7 @@ if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
 // 3. Define the Customization Class (The Patch)
 function adminer_object(): object {
     
-    // SudoWP Modernization: Allow Dynamic Properties for PHP 8.2+ compatibility
+    // Allow Dynamic Properties for PHP 8.2+ compatibility
     // Adminer relies heavily on dynamic properties.
     #[\AllowDynamicProperties]
     class SudoWP_Adminer_Extension extends Adminer {
