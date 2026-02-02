@@ -1,5 +1,9 @@
 # SudoWP Adminer (Security Fork)
 
+![PHP Version](https://img.shields.io/badge/PHP-%3E%3D%208.2-777bb4.svg)
+![License](https://img.shields.io/badge/License-GPLv2%2B-blue.svg)
+![Status](https://img.shields.io/badge/Status-Security%20Hardened-green.svg)
+
 **Contributors:** SudoWP, WP Republic  
 **Original Authors:** Frank Bültge, Inpsyde  
 **Tags:** adminer, database, security, cve-2021-21311, ssrf-patch  
