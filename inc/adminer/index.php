@@ -33,10 +33,11 @@ if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
 // 3. Security Headers
 // Prevent clickjacking (we're using iframe from within WP admin which is safe)
 // Note: X-Frame-Options is already removed by Adminer to allow iframe
-// Add Content-Security-Policy headers to mitigate XSS
+// Add security headers to mitigate various attacks
 header( "X-Content-Type-Options: nosniff" );
-header( "X-XSS-Protection: 1; mode=block" );
 header( "Referrer-Policy: strict-origin-when-cross-origin" );
+// Content Security Policy - Allow inline scripts (required by Adminer), restrict everything else
+header( "Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'self'" );
 
 // 3. Define the Customization Class (The Patch)
 function adminer_object(): object {
