@@ -1,0 +1,22 @@
+# Prevent direct access to Adminer files
+# Only index.php should be accessible (through WordPress iframe)
+<Files "*.inc.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "loader.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "plugin.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Allow access to index.php (main entry point)
+<Files "index.php">
+    Order allow,deny
+    Allow from all
+</Files>
