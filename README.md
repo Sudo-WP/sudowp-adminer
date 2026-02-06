@@ -21,6 +21,14 @@ Standard Adminer installations often allow **Server-Side Request Forgery (SSRF)*
 **The Solution:**
 SudoWP Adminer enforces a **"Localhost Only"** policy. It hardcodes the connection to the WordPress database defined in `wp-config.php`, completely mitigating the SSRF vector.
 
+**⚠️ Important Security Notice:**
+This plugin uses Adminer core version 4.2.4 (2015). While CVE-2021-21311 is patched, the older core may have other known vulnerabilities. The admin-only, localhost-only security model significantly reduces risk. See [SECURITY.md](SECURITY.md) for details.
+
+**Recommended Use:**
+- ✅ Development and staging environments
+- ✅ Trusted, private WordPress installations
+- ⚠️ Use with caution in production environments
+
 ---
 
 ## Description

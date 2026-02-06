@@ -1,0 +1,11 @@
+# Prevent direct access to Adminer Editor files
+# Editor is not used in SudoWP Adminer fork
+<Files "*.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "*.inc.php">
+    Order allow,deny
+    Deny from all
+</Files>

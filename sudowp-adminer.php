@@ -43,6 +43,11 @@ class SudoWP_Adminer {
 	}
 
 	public function render_admin_page(): void {
+		// Additional security: Verify current user capabilities
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( __( 'You do not have sufficient permissions to access this page.' ), 403 );
+		}
+
 		// Calculate the URL to the protected secure loader
 		$loader_url = plugin_dir_url( __FILE__ ) . 'inc/adminer/index.php';
 		?>
