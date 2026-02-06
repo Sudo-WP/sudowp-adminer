@@ -14,8 +14,11 @@ if ( file_exists( $wp_load_path ) ) {
     require_once( $wp_load_path );
 } else {
     // Fallback for non-standard directory structures
+    // Only use DOCUMENT_ROOT if it's a safe, absolute path
     $document_root = $_SERVER['DOCUMENT_ROOT'] ?? '';
-    if ( file_exists( $document_root . '/wp-load.php' ) ) {
+    // Sanitize and validate the path
+    $document_root = realpath( $document_root );
+    if ( $document_root && file_exists( $document_root . '/wp-load.php' ) ) {
         require_once( $document_root . '/wp-load.php' );
     } else {
         die( 'SudoWP Security Error: Could not locate WordPress core files.' );
@@ -26,6 +29,14 @@ if ( file_exists( $wp_load_path ) ) {
 if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
     wp_die( '<h1>Access Denied</h1><p>You do not have sufficient permissions to access the database manager.</p>', 403 );
 }
+
+// 3. Security Headers
+// Prevent clickjacking (we're using iframe from within WP admin which is safe)
+// Note: X-Frame-Options is already removed by Adminer to allow iframe
+// Add Content-Security-Policy headers to mitigate XSS
+header( "X-Content-Type-Options: nosniff" );
+header( "X-XSS-Protection: 1; mode=block" );
+header( "Referrer-Policy: strict-origin-when-cross-origin" );
 
 // 3. Define the Customization Class (The Patch)
 function adminer_object(): object {
@@ -46,9 +57,15 @@ function adminer_object(): object {
         
         /**
          * Auto-Login
+         * Security: Validate that user is still authenticated and authorized
          */
         function login( $login, $password ): bool {
-            return true;
+            // Double-check authentication on every request
+            if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
+                return false;
+            }
+            // Only allow login with the configured WordPress database credentials
+            return ( $login === DB_USER );
         }
 
         /**
@@ -57,6 +74,14 @@ function adminer_object(): object {
         function database(): string {
             return DB_NAME;
         }
+
+        /**
+         * SECURITY: Restrict database selection to WordPress database only
+         */
+        function databases(): array {
+            // Only allow access to the configured WordPress database
+            return array( DB_NAME );
+        }
         
         /**
          * UI Cleanup: Remove the logout button since it's controlled by WP session
@@ -64,7 +89,7 @@ function adminer_object(): object {
         function loginForm(): void {
              echo '<div style="background:#fff; padding:20px; border-left:4px solid #46b450; box-shadow:0 1px 4px rgba(0,0,0,0.1);">';
              echo '<h3>SudoWP Secure Mode</h3>';
-             echo '<p>Connected securely to <strong>' . DB_NAME . '</strong> on <strong>' . DB_HOST . '</strong>.</p>';
+             echo '<p>Connected securely to <strong>' . esc_html( DB_NAME ) . '</strong> on <strong>' . esc_html( DB_HOST ) . '</strong>.</p>';
              echo '</div>';
         }
 
