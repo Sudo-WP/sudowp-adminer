@@ -4,7 +4,7 @@ Original Authors: Frank Bültge, Inpsyde
 Tags: adminer, database, mysql, security-fork, ssrf-fix, cve-2021-21311
 Requires at least: 5.8
 Tested up to: 6.7
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,13 @@ It has been removed for security. The plugin uses your WordPress session to auth
 Yes, but you should delete the original plugin to ensure the vulnerability is removed from your server.
 
 == Changelog ==
+
+= 1.5.1 =
+* Security Fix: PHP object injection fix, restricted unserialize with allowed_classes.
+* Security Fix: Stronger CSRF token generation using random_bytes.
+* Security Fix: Capability check upgraded from import to manage_options.
+* Security Fix: Added nonce verification on iframe URL.
+* Cleanup: Added uninstall.php for proper data removal on plugin deletion.
 
 = 1.5.0 (SudoWP Edition) =
 * Security Fix: patched SSRF Vulnerability (CVE-2021-21311) by forcing local connection.

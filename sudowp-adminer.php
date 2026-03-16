@@ -10,7 +10,7 @@
  * Plugin Name:       SudoWP Adminer (Security Fork)
  * Plugin URI:        https://github.com/Sudo-WP/sudowp-adminer
  * Description:       A secure, zero-trust database management tool. Fixes critical SSRF vulnerabilities by enforcing local connections only.
- * Version:           1.5.0
+ * Version:           1.5.1
  * Author:            SudoWP, WP Republic
  * Author URI:        https://sudowp.com
  * License:           GPL-2.0+
