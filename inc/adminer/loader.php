@@ -100,7 +100,7 @@ if ( ! is_user_logged_in() ) {
 	exit;
 }
 
-if ( ! current_user_can( 'import' ) ) {
+if ( ! current_user_can( 'manage_options' ) ) {
 	wp_die( __( 'Cheatin&#8217; uh? You do not have permission to use this or can`t found the WordPress configuration file.' ) );
 	exit;
 }

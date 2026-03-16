@@ -3,7 +3,7 @@ $connection = '';
 
 $has_token = $_SESSION["token"];
 if (!$has_token) {
-	$_SESSION["token"] = rand(1, 1e6); // defense against cross-site request forgery
+	$_SESSION["token"] = bin2hex(random_bytes(16)); // defense against cross-site request forgery
 }
 $token = get_token(); ///< @var string CSRF protection
 
@@ -26,7 +26,7 @@ function add_invalid_login() {
 		}
 	}
 	flock($fp, LOCK_EX);
-	$invalids = unserialize(stream_get_contents($fp));
+	$invalids = unserialize(stream_get_contents($fp), ['allowed_classes' => false]);
 	$time = time();
 	if ($invalids) {
 		foreach ($invalids as $ip => $val) {
@@ -50,7 +50,7 @@ function add_invalid_login() {
 
 $auth = $_POST["auth"];
 if ($auth) {
-	$invalids = unserialize(@file_get_contents(adminer_get_temp_dir() . "/adminer.invalid")); // @ - may not exist
+	$invalids = unserialize(@file_get_contents(adminer_get_temp_dir() . "/adminer.invalid"), ['allowed_classes' => false]); // @ - may not exist
 	$invalid = $invalids[$adminer->bruteForceKey()];
 	$next_attempt = ($invalid[1] > 30 ? $invalid[0] - time() : 0); // allow 30 invalid attempts
 	if ($next_attempt > 0) { //! do the same with permanent login

@@ -49,7 +49,7 @@ class SudoWP_Adminer {
 		}
 
 		// Calculate the URL to the protected secure loader
-		$loader_url = plugin_dir_url( __FILE__ ) . 'inc/adminer/index.php';
+		$loader_url = add_query_arg( '_wpnonce', wp_create_nonce( 'sudowp_adminer_access' ), plugin_dir_url( __FILE__ ) . 'inc/adminer/index.php' );
 		?>
 		<div class="wrap" style="margin:0; padding:0; overflow:hidden;">
 			<h1 style="display:none;">SudoWP Database Manager</h1>
